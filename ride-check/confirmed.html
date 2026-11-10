@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Email confirmed – Ride Check</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="/">East Hill <span>Software</span></a>
+  <nav><a href="/ride-check/">Ride Check</a><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a></nav>
+</div></header>
+
+<main><div class="wrap">
+  <div id="ok">
+    <h1>Email confirmed</h1>
+    <p class="lead">Your Ride Check account is ready.</p>
+    <p>Go back to the Ride Check app and sign in with your email address and password. Your records will start backing up to the cloud automatically.</p>
+  </div>
+  <div id="err" hidden>
+    <h1>This link didn't work</h1>
+    <p class="lead" id="errText">The link may have expired or already been used.</p>
+    <p>If you've already confirmed your email, just sign in to the Ride Check app. Otherwise, create your account again in the app to get a new link, or email <a href="mailto:hello@easthillsoftware.co.uk">hello@easthillsoftware.co.uk</a>.</p>
+  </div>
+</div></main>
+
+<footer class="site"><div class="wrap">
+  <p><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a><a href="/ride-check/privacy.html">Ride Check privacy</a><a href="/ride-check/terms.html">Ride Check terms</a></p>
+  <p>© 2026 East Hill Software Ltd. Registered in England and Wales. Registered office: 6A Breeds Place, Hastings TN34 3AA.</p>
+</div></footer>
+<script>
+  // Supabase sends errors back in the address, e.g. #error=access_denied&error_description=...
+  var p = new URLSearchParams((location.hash || '').replace(/^#/, '') + '&' + location.search.replace(/^\?/, ''));
+  if (p.get('error') || p.get('error_code')) {
+    document.getElementById('ok').hidden = true;
+    document.getElementById('err').hidden = false;
+    if (p.get('error_code') === 'otp_expired') document.getElementById('errText').textContent = 'This link has expired or has already been used.';
+  }
+  // Remove the one-time tokens from the address bar.
+  if (location.hash) history.replaceState(null, '', location.pathname);
+</script>
+</body>
+</html>
